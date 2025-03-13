@@ -21,35 +21,44 @@ public class Main extends Items {
         String readerString;
         while((readerString = reader.readLine()) != null) first(readerString);
         reader.close();
+        // filereader, bufferedReader 활용하여 .cafe 파일 받아오기 (여러개일 경우 처음만 받아옴)
+        // findFiles 함수는 하단에 구현되어 있음
 
         int startPos = TotalText.indexOf("주문할게요");
         int endPos = TotalText.lastIndexOf("여기까지 해서 얼마에요");
-        TotalText = TotalText.substring(startPos, endPos);
+        try { TotalText = TotalText.substring(startPos, endPos); }
+        catch(StringIndexOutOfBoundsException e) {
+            System.out.print("뒤에 손님들이 밀려서, 주문이 아직 정해지지 않으셨으면 결정하고 오시겠어요?");
+            return;
+        }
 
         DefaultFunctions func = new DefaultFunctions();
 
         String[] lines = TotalText.split("\\n");
-        for(String line : lines) {
+        for(int i = 0; i < lines.length; i++) {
+            String line = lines[i];
             if (line.equals("주문할게요")) { func.start(); }
             else if (line.equals("여기까지 해서 얼마에요")) { func.end(); }
             else if (func.checkInCodeBlock()) {
                 line = line.trim();
-                if(!func.doSomething(line)) {
+                if(func.doSomething(line) == -1) {
                     reader.close();
                     return;
                 } else {
-                    printText.append(func.getSb());
+                    printText.append(func.getter());
                 }
             }
         }
+        // enhenced for-loop를 사용하게 되면 goto문을 통해 이동하기 번거로움
+        // lines[] 배열을 굳이 여러 번 parameter로 옮기면서 처리할 필요도 없어 보임
 
-        System.out.println(printText);
+        System.out.print(printText);
         reader.close();
     }
 
     public static List<String> findFiles(Path path, String fileExtension) throws IOException {
         if(!Files.isDirectory(path))
-            throw new IllegalArgumentException("Path must be a directory!");
+            throw new IllegalArgumentException("경로가 폴더로 주어지지 않아 cafe 문서를 찾는 데 실패했습니다.");
         List<String> result;
         try (Stream<Path> walk = Files.walk(path)) {
             result = walk
@@ -58,7 +67,6 @@ public class Main extends Items {
                     .filter(f -> f.endsWith(fileExtension))
                     .collect(Collectors.toList());
         }
-
         return result;
     }
 

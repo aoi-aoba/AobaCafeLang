@@ -15,7 +15,7 @@ public class Printers {
                 sb.append(longVariables.get(varName));
             } else {
                 sb = new StringBuilder();
-                System.out.println("그 메뉴는 없어서 주문이 불가능하세요.");
+                System.out.print("그 메뉴는 없어서 주문이 불가능하세요.");
                 break;
             }
         }
@@ -24,6 +24,10 @@ public class Printers {
 
     public String printWithASCII(String[] parts, Map<String, Integer> intVariables) {
         sb = new StringBuilder();
+        if(!parts[parts.length-1].equals("에요")) {
+            System.out.print("주문이 틀리셨는데 DM으로 보내드린 메뉴판 다시 확인해주시고 주문하시겠어요?");
+            return null;
+        }
         for(int i = 5; i < parts.length; i++) {
             String varName = parts[i];
             if(intVariables.containsKey(varName)) {
@@ -33,7 +37,7 @@ public class Printers {
                 break;
             } else {
                 sb = new StringBuilder();
-                System.out.println("그 메뉴는 없어서 주문이 불가능하세요.");
+                System.out.print("그 메뉴는 없어서 주문이 불가능하세요.");
                 break;
             }
         }
