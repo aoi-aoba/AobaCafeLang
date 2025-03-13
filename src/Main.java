@@ -35,7 +35,6 @@ public class Main extends Items {
             else if (func.checkInCodeBlock()) {
                 line = line.trim();
                 if(!func.doSomething(line)) {
-                    printText = new StringBuilder();
                     reader.close();
                     return;
                 } else {

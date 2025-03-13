@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultFunctions {
-    private Map<String, Long> longVariables = new HashMap<>();
-    private Map<String, Integer> intVariables = new HashMap<>();
+    private final Map<String, Long> longVariables = new HashMap<>();
+    private final Map<String, Integer> intVariables = new HashMap<>();
 
     String line;
     boolean isInCodeBlock;
