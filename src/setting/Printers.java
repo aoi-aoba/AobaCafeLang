@@ -14,9 +14,8 @@ public class Printers {
             } else if(longVariables.containsKey(varName)) {
                 sb.append(longVariables.get(varName));
             } else {
-                sb = new StringBuilder();
                 System.out.print("그 메뉴는 없어서 주문이 불가능하세요.");
-                break;
+                return null;
             }
         }
         return sb.toString();
@@ -36,9 +35,8 @@ public class Printers {
             } else if(parts[i].equals("에요")) {
                 break;
             } else {
-                sb = new StringBuilder();
                 System.out.print("그 메뉴는 없어서 주문이 불가능하세요.");
-                break;
+                return null;
             }
         }
         return sb.toString();

@@ -41,11 +41,14 @@ public class Main extends Items {
             else if (line.equals("여기까지 해서 얼마에요")) { func.end(); }
             else if (func.checkInCodeBlock()) {
                 line = line.trim();
-                if(func.doSomething(line) == -1) {
+                int returnVal = func.doSomething(line, lines.length);
+                if(returnVal == -1) {
                     reader.close();
                     return;
-                } else {
+                } else if(returnVal == 0) {
                     printText.append(func.getter());
+                } else {
+                    i = returnVal - 2;
                 }
             }
         }
