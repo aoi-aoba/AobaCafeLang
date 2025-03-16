@@ -27,30 +27,34 @@ public class DefaultFunctions {
         // doSomething 함수를 통해 -1 반환 시 exception, 0 반환 시 continue, 1 이상 반환 시 해당 줄로 goto 문 실행
         line = input;
         sb = new StringBuilder();
-        if(line.startsWith("주문이")) { sb.append("\n"); }
-        else if(line.startsWith("제가")) {
+        if (line.startsWith("주문이")) {
+            sb.append("\n");
+        } else if (line.startsWith("제가")) {
             String[] parts = line.split(" ");
             return goTo(parts, lineLength);
-        }
-        else if(line.startsWith("톨 사이즈로")) {
+        } else if (line.startsWith("톨 사이즈로")) {
             String[] parts = line.split(" ");
             return makeVariable(parts, true) ? 0 : -1;
-        } else if(line.startsWith("그란데 사이즈로")) {
+        } else if (line.startsWith("그란데 사이즈로")) {
             String[] parts = line.split(" ");
             return makeVariable(parts, false) ? 0 : -1;
-        } else if(line.startsWith("이렇게 주문할게요")) {
+        } else if (line.startsWith("이렇게 주문할게요")) {
             String[] parts = line.split(" ");
             String strForReturn;
-            if(parts[2].equals("캐리어에")) {
+            if (parts[2].equals("캐리어에")) {
                 strForReturn = printer.printWithASCII(parts, intVariables);
             } else {
                 strForReturn = printer.print(parts, intVariables, longVariables);
             }
-            if(strForReturn == null) return -1;
+            if (strForReturn == null) return -1;
             else sb.append(strForReturn);
-        } else if((line.endsWith("해주세요"))) {
+        } else if ((line.endsWith("해주세요"))) {
             String[] parts = line.split(" ");
             calc.operation(parts, intVariables, longVariables);
+        } else if (line.endsWith("나눠주세요") || line.endsWith("넣어주세요")) {
+            String[] parts = line.split(" ");
+            boolean result = calc.operation(parts, intVariables, longVariables);
+            if(!result) return -1;
         } else {
             System.out.print("주문이 틀리셨는데 DM으로 보내드린 메뉴판 다시 확인해주시고 주문하시겠어요?");
             return -1;
@@ -59,6 +63,7 @@ public class DefaultFunctions {
     }
 
     public boolean makeVariable(String[] parts, boolean isInteger) {
+        // int형 변수(톨 사이즈)인지 long형 변수(그란데 사이즈)인지 isInteger parameter를 포함해서 받게 수정
         try {
             String varName = parts[2];
             if (isInteger) {

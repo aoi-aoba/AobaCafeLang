@@ -27,10 +27,10 @@ public class Main extends Items {
         int startPos = TotalText.indexOf("주문할게요");
         int endPos = TotalText.lastIndexOf("여기까지 해서 얼마에요");
         try { TotalText = TotalText.substring(startPos, endPos); }
-        catch(StringIndexOutOfBoundsException e) {
+        catch (StringIndexOutOfBoundsException e) {
             System.out.print("뒤에 손님들이 밀려서, 주문이 아직 정해지지 않으셨으면 결정하고 오시겠어요?");
             return;
-        }
+        } // 시작 혹은 종료의 문구를 입력하지 않은 코드의 경우 Exception을 발생시키므로 해당 Exception을 catch 하여 문법 오류를 판단
 
         DefaultFunctions func = new DefaultFunctions();
 
@@ -54,6 +54,7 @@ public class Main extends Items {
         }
         // enhenced for-loop를 사용하게 되면 goto문을 통해 이동하기 번거로움
         // lines[] 배열을 굳이 여러 번 parameter로 옮기면서 처리할 필요도 없어 보임
+        // return value에 따라서 goto문 실행/오류처리까지 구분이 가능함
 
         System.out.print(printText);
         reader.close();
